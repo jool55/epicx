@@ -728,6 +728,28 @@ namespace randomx {
 		emitByte(0xe0 + instr.src + 8 * instr.dst);
 	}
 
+	static const uint8_t MOVQ_XMM12_REX[] = { 0x66, 0x4d, 0x0f, 0x6e };
+	static const uint8_t CVTDQ2PD_XMM12[] = { 0xf3, 0x45, 0x0f, 0xe6, 0xe4 };
+	static const uint8_t MULPD_XMM12[] = { 0x66, 0x41, 0x0f, 0x59 };
+
+	void JitCompilerX86::h_FMUL2I_R(Instruction& instr, int i) {
+		instr.dst %= RegisterCountFlt;
+		int reg_a = (instr.getImm32() & 0xff) % RegistersCount;
+		int reg_b = (instr.getImm32()>>8 & 0xff) % RegistersCount;
+		emit(MOVQ_XMM12_REX);
+		emitByte(0xe0 + reg_a);
+		emit(CVTDQ2PD_XMM12);
+		emit(MULPD_XMM12);
+		emitByte(0xc4 + 8 * (instr.dst+4));
+		emit(MOVQ_XMM12_REX);
+		emitByte(0xe0 + reg_b);
+		emit(CVTDQ2PD_XMM12);
+		emit(MULPD_XMM12);
+		emitByte(0xc4 + 8 * (instr.dst+4));
+		emit(SQRTPD);
+		emitByte(0xe4 + 9 * instr.dst);
+	}
+
 	void JitCompilerX86::h_FDIV_M(Instruction& instr, int i) {
 		instr.dst %= RegisterCountFlt;
 		genAddressReg(instr);
@@ -814,6 +836,7 @@ namespace randomx {
 		INST_HANDLE(FSUB_M)
 		INST_HANDLE(FSCAL_R)
 		INST_HANDLE(FMUL_R)
+		INST_HANDLE(FMUL2I_R)
 		INST_HANDLE(FDIV_M)
 		INST_HANDLE(FSQRT_R)
 		INST_HANDLE(CBRANCH)

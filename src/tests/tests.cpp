@@ -967,25 +967,25 @@ int main() {
 	auto test_a = [&] {
 		char hash[RANDOMX_HASH_SIZE];
 		calcStringHash("test key 000", "This is a test", &hash);
-		assert(equalsHex(hash, "b33f8d10a8655d6f1925e3754adeb0a6da4c2f48a81cd4c220a412f1ef016a15"));
+		assert(equalsHex(hash, "0a5d8ab35a1a55d7d0ed8d9b3d28418d0f98a8a57edc73b5e6644a7dde911886"));
 	};
 
 	auto test_b = [&] {
 		char hash[RANDOMX_HASH_SIZE];
 		calcStringHash("test key 000", "Lorem ipsum dolor sit amet", &hash);
-		assert(equalsHex(hash, "62ac336786ad3a7aff990beb2f643bd748d81dba585a52149d0baebdea0e9823"));
+		assert(equalsHex(hash, "130c9a7abbc3a7a36e00c677aa70d54fe8750abe94ce0beacc876ff06f682b50"));
 	};
 
 	auto test_c = [&] {
 		char hash[RANDOMX_HASH_SIZE];
 		calcStringHash("test key 000", "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", &hash);
-		assert(equalsHex(hash, "6c550ebe765f7b784d2c183552fbb6048b58f17a3f115baf2b968724eb2f7a23"));
+		assert(equalsHex(hash, "dd091c365e86a3cae68ad3a34cf2e72851fdf92d13f4d1145d2fe8f871b313c4"));
 	};
 
 	auto test_d = [&] {
 		char hash[RANDOMX_HASH_SIZE];
 		calcStringHash("test key 001", "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", &hash);
-		assert(equalsHex(hash, "cb602b9c498b67e31e519fbdc07e288de46f949b14ad620380df6250eaffbd4e"));
+		assert(equalsHex(hash, "fef02404727abd7e888e0924aaf8ea7d6b6b46133b25291e31336edf65e90020"));
 	};
 
 	auto test_e = [&] {
@@ -994,7 +994,7 @@ int main() {
 		//std::cout << std::endl;
 		//outputHex(std::cout, (const char*)hash, sizeof(hash));
 		//std::cout << std::endl;
-		assert(equalsHex(hash, "f60caf300917760337e8ce51487484e6a33d4aaa15aa79c985efb4ea00390918"));
+		assert(equalsHex(hash, "82bb98c1e79f276cbef4de9e2ea2c2f1b389928b1a1e98367e91611fd3dd421a"));
 	};
 
 	runTest("Hash test 1a (interpreter)", stringsEqual(RANDOMX_ARGON_SALT, "RandomX\x03"), test_a);

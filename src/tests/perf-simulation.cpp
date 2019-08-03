@@ -601,6 +601,13 @@ int analyze(randomx::Program& p) {
 			continue;
 		}
 
+		if (opcode < randomx::ceil_FMUL2I_R) {
+			instr.dst = 4 + instr.dst % randomx::RegisterCountFlt;
+			instr.opcode |= DST_FLT;
+			instr.opcode |= OP_FLOAT;
+			continue;
+		}
+
 		if (opcode < randomx::ceil_FDIV_M) {
 			instr.dst = 4 + instr.dst % randomx::RegisterCountFlt;
 			instr.src = instr.src % randomx::RegistersCount;

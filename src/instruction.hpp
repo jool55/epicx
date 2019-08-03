@@ -64,12 +64,13 @@ namespace randomx {
 		FSUB_M = 21,
 		FSCAL_R = 22,
 		FMUL_R = 23,
-		FDIV_M = 24,
-		FSQRT_R = 25,
-		CBRANCH = 26,
-		CFROUND = 27,
-		ISTORE = 28,
-		NOP = 29,
+		FMUL2I_R = 24,
+		FDIV_M = 25,
+		FSQRT_R = 26,
+		CBRANCH = 27,
+		CFROUND = 28,
+		ISTORE = 29,
+		NOP = 30,
 	};
 
 	class Instruction {
@@ -136,6 +137,7 @@ namespace randomx {
 		void h_FSUB_M(std::ostream&) const;
 		void h_FSCAL_R(std::ostream&) const;
 		void h_FMUL_R(std::ostream&) const;
+		void h_FMUL2I_R(std::ostream&) const;
 		void h_FDIV_M(std::ostream&) const;
 		void h_FSQRT_R(std::ostream&) const;
 		void h_CBRANCH(std::ostream&) const;

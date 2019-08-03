@@ -517,6 +517,19 @@ namespace randomx {
 		traceflt(instr);
 	}
 
+	void AssemblyGeneratorX86::h_FMUL2I_R(Instruction& instr, int i) {
+		int reg_a = (instr.getImm32() & 0xff) % RegistersCount;
+		int reg_b = (instr.getImm32()>>8 & 0xff) % RegistersCount;
+		instr.dst %= RegisterCountFlt;
+		asmCode << "\tmovq " << tempRegx << ", " <<  regR[reg_a] << std::endl;
+		asmCode << "\tcvtdq2pd " << tempRegx << ", " <<  tempRegx << std::endl;
+		asmCode << "\tmulpd " << regE[instr.dst] << ", " << tempRegx << std::endl;
+		asmCode << "\tmovq " << tempRegx << ", " <<  regR[reg_b] << std::endl;
+		asmCode << "\tcvtdq2pd " << tempRegx << ", " <<  tempRegx << std::endl;
+		asmCode << "\tmulpd " << regE[instr.dst] << ", " << tempRegx << std::endl;
+		traceflt(instr);
+	}
+
 	void AssemblyGeneratorX86::h_FDIV_M(Instruction& instr, int i) {
 		instr.dst %= RegisterCountFlt;
 		genAddressReg(instr);
@@ -601,6 +614,7 @@ namespace randomx {
 		INST_HANDLE(FSUB_M)
 		INST_HANDLE(FSCAL_R)
 		INST_HANDLE(FMUL_R)
+		INST_HANDLE(FMUL2I_R)
 		INST_HANDLE(FDIV_M)
 		INST_HANDLE(FSQRT_R)
 		INST_HANDLE(CBRANCH)

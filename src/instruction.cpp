@@ -282,6 +282,12 @@ namespace randomx {
 		os << "e" << dstIndex << ", a" << srcIndex << std::endl;
 	}
 
+	void Instruction::h_FMUL2I_R(std::ostream& os) const {
+		auto dstIndex = dst % RegisterCountFlt;
+		auto srcIndex = src % RegisterCountFlt;
+		os << "e" << dstIndex << ", a" << srcIndex << std::endl;
+	}
+
 	void Instruction::h_FDIV_M(std::ostream& os) const {
 		auto dstIndex = dst % RegisterCountFlt;
 		auto srcIndex = src % RegistersCount;
@@ -346,6 +352,7 @@ namespace randomx {
 		INST_NAME(FSUB_M)
 		INST_NAME(FSCAL_R)
 		INST_NAME(FMUL_R)
+		INST_NAME(FMUL2I_R)
 		INST_NAME(FDIV_M)
 		INST_NAME(FSQRT_R)
 		INST_NAME(CBRANCH)
@@ -379,6 +386,7 @@ namespace randomx {
 		INST_HANDLE(FSUB_M)
 		INST_HANDLE(FSCAL_R)
 		INST_HANDLE(FMUL_R)
+		INST_HANDLE(FMUL2I_R)
 		INST_HANDLE(FDIV_M)
 		INST_HANDLE(FSQRT_R)
 		INST_HANDLE(CBRANCH)

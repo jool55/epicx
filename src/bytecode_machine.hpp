@@ -52,6 +52,7 @@ namespace randomx {
 			const int_reg_t* isrc;
 			const rx_vec_f128* fsrc;
 		};
+		const int_reg_t* isrc2;
 		union {
 			uint64_t imm;
 			int64_t simm;
@@ -90,7 +91,8 @@ namespace randomx {
 	OPCODE_CEIL_DECLARE(FSUB_M, FSUB_R);
 	OPCODE_CEIL_DECLARE(FSCAL_R, FSUB_M);
 	OPCODE_CEIL_DECLARE(FMUL_R, FSCAL_R);
-	OPCODE_CEIL_DECLARE(FDIV_M, FMUL_R);
+	OPCODE_CEIL_DECLARE(FMUL2I_R, FMUL_R);
+	OPCODE_CEIL_DECLARE(FDIV_M, FMUL2I_R);
 	OPCODE_CEIL_DECLARE(FSQRT_R, FDIV_M);
 	OPCODE_CEIL_DECLARE(CBRANCH, FSQRT_R);
 	OPCODE_CEIL_DECLARE(CFROUND, CBRANCH);
@@ -239,6 +241,14 @@ namespace randomx {
 			*ibc.fdst = rx_mul_vec_f128(*ibc.fdst, *ibc.fsrc);
 		}
 
+		static void exe_FMUL2I_R(RANDOMX_EXE_ARGS) {
+			rx_vec_f128 a = _mm_cvtepi32_pd(_mm_set_epi64x(0, *ibc.isrc)); 
+			*ibc.fdst = rx_mul_vec_f128(*ibc.fdst, a);
+			rx_vec_f128 b = _mm_cvtepi32_pd(_mm_set_epi64x(0, *ibc.isrc2));
+			*ibc.fdst = rx_mul_vec_f128(*ibc.fdst, b);
+			*ibc.fdst = rx_sqrt_vec_f128(*ibc.fdst);
+		}
+
 		static void exe_FDIV_M(RANDOMX_EXE_ARGS) {
 			rx_vec_f128 fsrc = maskRegisterExponentMantissa(
 				config,
@@ -311,6 +321,7 @@ namespace randomx {
 		void gen_FSUB_M(RANDOMX_GEN_ARGS);
 		void gen_FSCAL_R(RANDOMX_GEN_ARGS);
 		void gen_FMUL_R(RANDOMX_GEN_ARGS);
+		void gen_FMUL2I_R(RANDOMX_GEN_ARGS);
 		void gen_FDIV_M(RANDOMX_GEN_ARGS);
 		void gen_FSQRT_R(RANDOMX_GEN_ARGS);
 		void gen_CBRANCH(RANDOMX_GEN_ARGS);
